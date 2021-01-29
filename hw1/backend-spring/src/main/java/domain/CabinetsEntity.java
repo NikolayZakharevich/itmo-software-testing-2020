@@ -17,6 +17,14 @@ public class CabinetsEntity {
     private Object tables;
     private Object events;
 
+    public CabinetsEntity() {}
+
+    public CabinetsEntity(String id, Integer floor, String type) {
+        this.id = id;
+        this.floor = floor;
+        this.type = type;
+    }
+
     @Id
     @GeneratedValue
     @Column(name = "id", nullable = false, length = 50)
