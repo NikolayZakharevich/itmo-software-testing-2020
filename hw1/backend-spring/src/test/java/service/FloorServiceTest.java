@@ -1,11 +1,14 @@
 package service;
 
 import domain.CabinetsEntity;
+import domain.FloorEntity;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
 import repository.CabinetRepository;
 
+import java.util.Arrays;
 import java.util.Collections;
 
 import static org.mockito.Mockito.mock;
@@ -28,7 +31,9 @@ public class FloorServiceTest {
         );
 
         FloorService service = new FloorService(cabinetRepository);
-        service.getFloor(1L, Collections.singletonList("coffepoint"));
+        FloorEntity floorEntity = service.getFloor(1L, Collections.singletonList("coffepoint"));
+
+        Assert.assertEquals(floorEntity.getCabinets(), Collections.emptyList());
     }
 
 }
