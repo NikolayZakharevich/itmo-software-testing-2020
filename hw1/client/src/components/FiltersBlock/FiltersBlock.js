@@ -1,7 +1,7 @@
 import React from "react"
 import "./FiltersBlock.scss"
 
-const Filter = ({label, checked, onChange}) => {
+export const Filter = ({label, checked, onChange}) => {
     return (
         <label className="FiltersBlock__container">{label}
             <input id="coffee" type="checkbox"
@@ -11,7 +11,9 @@ const Filter = ({label, checked, onChange}) => {
     )
 }
 
-const FiltersBlock = ({state, updateState, applyFilters}) => {
+export const FiltersBlock = ({state, updateState, applyFilters}) => {
+    state = state || {}
+    applyFilters = applyFilters || (() => {})
 
     const {coffeepoint, bathroom, worker_room, meeting_room, warehouse} = state
 

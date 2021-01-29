@@ -1,7 +1,7 @@
 import React from 'react';
 import "./FloorLayout.scss"
-import {LAYOUT_CABINET} from "../../App";
 import {getCabinet} from "../../api/cabinet";
+import {LAYOUT_CABINET} from "../../App";
 
 const FloorLayout = ({id, cabinets, points, setActiveLayout, setActiveFloor, setActiveCabinet}) => {
 
