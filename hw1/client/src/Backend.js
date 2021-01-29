@@ -1,0 +1,30 @@
+import queryString from 'query-string'
+import config from './config'
+
+export const requestParams = httpMethod => ({
+    method: httpMethod.toUpperCase()
+});
+
+export default class Backend {
+    static async request(method, params, httpMethod = 'GET') {
+        let url = config.api_basepath + method
+        const reqParams = requestParams(httpMethod)
+
+        if (httpMethod.toString().toUpperCase() !== 'GET') {
+            if (!(params instanceof FormData)) {
+                reqParams['headers']['Content-Type'] = 'application/json'
+            }
+            reqParams['body'] = params instanceof FormData ? params : JSON.stringify(params)
+        } else {
+            url += `?${queryString.stringify(params)}`;
+        }
+
+        try {
+            let r = await fetch(url, reqParams);
+            return await r.json();
+        } catch (e) {
+            console.log(e)
+            return Promise.reject(e);
+        }
+    }
+}
