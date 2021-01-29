@@ -25,28 +25,28 @@ export class DataParser {
      * @param {string} fileName
      * @param {int} level
      */
-    parseUsersFile(fileName, level) {
+    async parseUsersFile(fileName, level) {
         const service = new UserService();
 
         const headers = ['cabinet', 'surname', 'name'];
         const fullNameToId = {};
         const cabinetToWorkers = {};
 
-        this.processCsv(fileName, headers, /** {cabinet: string, surname: string, name: string} */row => {
+        await this.processCsv(fileName, headers, /** {cabinet: string, surname: string, name: string} */row => {
             const floor = parseInt(row.cabinet.charAt(0), 10);
             const cabinetId = parseInt(row.cabinet, 10);
             const user = service.createUser(row.name, row.surname, floor, cabinetId, level, RANDOM_PHOTO_URL);
 
             fullNameToId[user.fullName] = user.id;
-            cabinetToWorkers[user.cabinet] = {};
-            if (cabinetToWorkers[user.cabinet] && cabinetToWorkers[user.cabinet][user.level]) {
+
+            if (cabinetToWorkers[user.cabinet] && cabinetToWorkers[user.cabinet][user.level] !== undefined) {
                 cabinetToWorkers[user.cabinet][user.level].push(user.fullName);
             } else {
                 cabinetToWorkers[user.cabinet] = {[user.level]: []};
             }
         });
 
-        return {fullNameToId, cabinetToWorkers};
+        return [fullNameToId, cabinetToWorkers];
     }
 
     /**
@@ -54,13 +54,13 @@ export class DataParser {
      * @param {int} floor
      * @return {Floor}
      */
-    parseFloorFile(fileName, floor) {
+    async parseFloorFile(fileName, floor) {
         const service = new FloorService();
 
         const headers = ['id', 'name', 'x', 'y'];
         const cabinetsData = [];
 
-        this.processCsv(fileName, headers, /** {id: string, name: string, x: string, y: string} */row => {
+        await this.processCsv(fileName, headers, /** {id: string, name: string, x: string, y: string} */row => {
             const pointX = parseInt(row.x, 10);
             const pointY = parseInt(row.y, 10);
             cabinetsData.push(service.createCabinetData(row.id, row.name, pointX, pointY));
@@ -72,11 +72,11 @@ export class DataParser {
     /**
      * @param {string} fileName
      */
-    parseCabinetTablesFile(fileName) {
+    async parseCabinetTablesFile(fileName) {
         const headers = ['id', 'x', 'y'];
         const tableIdToPoints = {};
 
-        this.processCsv(fileName, headers, /** id: string, x: string, y: string) */row => {
+        await this.processCsv(fileName, headers, /** id: string, x: string, y: string) */row => {
             const tableId = parseInt(row.id, 10);
             const pointX = parseInt(row.x, 10);
             const pointY = parseInt(row.y, 10);
@@ -89,17 +89,16 @@ export class DataParser {
     /**
      * @param {string} fileName
      */
-    parseCabinetsFile(fileName) {
+    async parseCabinetsFile(fileName) {
         const service = new CabinetService();
 
-        const headers = ['keyCabs', 'floor', 'type'];
+        const headers = ['id', 'floor', 'type'];
         const cabinets = [];
 
-        this.processCsv(fileName, headers, /** id: string, floor: string, type: string) */row => {
+        await this.processCsv(fileName, headers, /** id: string, floor: string, type: string) */row => {
             const floor = parseInt(row.floor, 10);
             cabinets.push(service.createCabinet(row.id, floor, 1, 1, row.type, []));
-        });
-
+        })
         return cabinets;
     }
 
@@ -109,17 +108,15 @@ export class DataParser {
      * @param {String[]} headers
      * @param {function(object): void} handleRow
      */
-    processCsv(fileName, headers, handleRow) {
+    async processCsv(fileName, headers, handleRow) {
         const csvOptions = {
             separator: ';',
             headers
         };
+        for await (const chunk of fs.createReadStream(fileName).pipe(csv(csvOptions))) {
+            handleRow(chunk)
+        }
+        console.log(`CSV file "${fileName}" successfully processed`);
 
-        fs.createReadStream(fileName)
-            .pipe(csv(csvOptions))
-            .on('data', handleRow)
-            .on('end', () => {
-                console.log(`CSV file "${fileName}" successfully processed`);
-            });
     }
 }

@@ -1,13 +1,12 @@
 import express from 'express';
 import bodyParser from 'body-parser';
 
-import {floors, initFromFiles} from "./state.mjs";
+import {getFloor, initFromFiles} from "./state.mjs";
 
 
 export class Application {
     constructor() {
         this.expressApp = express();
-        this.manager = new ChatRoomManager();
         this.attachRoutes();
     }
 
@@ -21,16 +20,15 @@ export class Application {
     }
 
     initHandler(req, res) {
-        initFromFiles();
-
-        const response = 'ok';
-        res.json({response});
+        initFromFiles().then(_ => res.json('ok'));
     }
 
     getFloorHandler(req, res) {
         const floorId = parseInt(req.params.floorId, 10);
-        const floor = floors.find(floor => floor.id === floorId) || null;
-        const response = {floor};
-        res.json({response});
+        const filters = (req.query.filters || '').split(',').filter(x => !!x)
+
+        res.json({
+            floor: getFloor(floorId, filters)
+        });
     }
 }
