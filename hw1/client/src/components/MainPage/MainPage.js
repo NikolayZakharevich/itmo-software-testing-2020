@@ -12,7 +12,6 @@ import FiltersBlock from "../FiltersBlock/FiltersBlock";
 import {LAYOUT_CABINET, LAYOUT_FLOOR} from "../../App";
 
 
-
 const FLOOR_ID_START = 1;
 const FLOOR_ID_MIN = 1;
 const FLOOR_ID_MAX = 3;
@@ -22,6 +21,12 @@ const FLOOR_EMPTY = {id: FLOOR_ID_START, cabinets: [], points: []}
 const BLOCK_FILTERS = Symbol('BLOCK_FILTERS');
 const BLOCK_ROAD = Symbol('BLOCK_ROAD');
 const BLOCK_MAGNIFIER = Symbol('BLOCK_MAGNIFIER');
+
+export const needToCopyPrevFloorPoints = (prevFloor, newFloor) => {
+    const hasNoPoints = !newFloor || !newFloor.points || !Array.isArray(newFloor.points);
+    const hadPoints = !!prevFloor && !!prevFloor.points && prevFloor.points.length > 0;
+    return hasNoPoints && hadPoints;
+}
 
 const MainPage = ({login, showLayout}) => {
 
@@ -109,9 +114,7 @@ const MainPage = ({login, showLayout}) => {
     };
 
     const changeFloorKeepingPoints = floor => {
-        const hasNoPoints = !floor || !floor.points;
-        const hadPoints = !!activeFloor && !!activeFloor.points && activeFloor.points.length > 0;
-        if (hasNoPoints && hadPoints) {
+        if (needToCopyPrevFloorPoints(activeFloor, floor)) {
             floor.points = activeFloor.points
         }
         setActiveFloor(floor)

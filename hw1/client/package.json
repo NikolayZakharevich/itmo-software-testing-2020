@@ -41,5 +41,9 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "cypress": "^6.3.0",
+    "cypress-intellij-reporter": "^0.0.6"
   }
 }

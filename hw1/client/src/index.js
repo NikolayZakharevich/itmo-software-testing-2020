@@ -4,16 +4,9 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import {RouterProvider} from "react-router5";
-import createRouter from 'router5'
 import browserPlugin from 'router5-plugin-browser'
+import {router} from "./components/routes";
 
-const routes = [
-    {name: 'main', path: '/'},
-    {name: 'login', path: '/login'},
-    {name: 'register', path: '/register'}
-]
-
-export const router = createRouter(routes)
 
 router.usePlugin(browserPlugin())
 

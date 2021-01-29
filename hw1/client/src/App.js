@@ -2,20 +2,20 @@ import './App.css';
 import MainPage from "./components/MainPage/MainPage";
 import AuthPage from './components/AuthPage/AuthPage'
 import {useRoute} from 'react-router5'
-import {router} from "./index";
+import {navigateTo, ROUTE_NAME_MAIN} from "./components/routes";
 
 export const LAYOUT_FLOOR = 'LAYOUT_FLOOR';
 export const LAYOUT_CABINET = 'LAYOUT_CABINET';
 
 const App = () => {
-    const {route} = useRoute()
+    const {route} = useRoute() || {}
 
     const onSuccess = user => {
-        router.navigate('main', {state: {showLayout: true, login: user.login}});
+        navigateTo(ROUTE_NAME_MAIN)
     }
 
     if (!route) {
-        return null
+        return <MainPage showLayout={true}/>
     }
 
     if (route.name === 'main') {

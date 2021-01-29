@@ -3,23 +3,6 @@ import {act} from "react-dom/test-utils";
 
 import {Filter, FiltersBlock} from './FiltersBlock';
 
-const expectFilterToBeCorrect = (filterNode, checked, labelText) => {
-    expect(filterNode).toBeDefined();
-    if (labelText !== undefined) {
-        expect(filterNode.textContent).toBe(labelText);
-    }
-
-    const checkbox = filterNode.childNodes[1]
-    expect(checkbox).toBeDefined()
-    if (checked) {
-        expect(checkbox).toBeChecked()
-    } else {
-        expect(checkbox).not.toBeChecked()
-    }
-}
-const expectFilterToBeChecked = label => expectFilterToBeCorrect(label, true)
-const expectFilterToBeUnchecked = label => expectFilterToBeCorrect(label, false)
-
 it("renders empty single filter", () => {
     act(() => {
         const {container} = render(<Filter/>);
@@ -92,3 +75,20 @@ it("clicks on filter", () => {
 
     expect(clicked).toEqual(true)
 });
+
+const expectFilterToBeCorrect = (filterNode, checked, labelText) => {
+    expect(filterNode).toBeDefined();
+    if (labelText !== undefined) {
+        expect(filterNode.textContent).toBe(labelText);
+    }
+
+    const checkbox = filterNode.childNodes[1]
+    expect(checkbox).toBeDefined()
+    if (checked) {
+        expect(checkbox).toBeChecked()
+    } else {
+        expect(checkbox).not.toBeChecked()
+    }
+}
+const expectFilterToBeChecked = label => expectFilterToBeCorrect(label, true)
+const expectFilterToBeUnchecked = label => expectFilterToBeCorrect(label, false)
