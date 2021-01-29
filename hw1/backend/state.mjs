@@ -2,8 +2,8 @@ import {
     DataParser, FILENAME_CABINET_106,
     FILENAME_FLOOR_1,
     FILENAME_FLOOR_3, FILENAME_OTHER_CABINETS,
-    FILENAME_USERS_LEVEL_1,
-    FILENAME_USERS_LEVEL_2
+    FILENAME_WORKERS_LEVEL_1,
+    FILENAME_WORKERS_LEVEL_2
 } from "./service/DataParser.mjs";
 import {CabinetService} from "./service/CabinetService.mjs";
 
@@ -41,8 +41,8 @@ async function readFiles() {
         tableIdToPointsCabinet106,
         cabinets
     ] = await Promise.all([
-        parser.parseUsersFile(FILENAME_USERS_LEVEL_1, 1),
-        parser.parseUsersFile(FILENAME_USERS_LEVEL_2, 2),
+        parser.parseWorkersFile(FILENAME_WORKERS_LEVEL_1, 1),
+        parser.parseWorkersFile(FILENAME_WORKERS_LEVEL_2, 2),
         parser.parseFloorFile(FILENAME_FLOOR_1, 1),
         parser.parseFloorFile(FILENAME_FLOOR_3, 3),
         parser.parseCabinetTablesFile(FILENAME_CABINET_106),

@@ -1,16 +1,16 @@
 import fs from 'fs'
 import csv from 'csv-parser'
-import {UserService} from "./UserService.mjs";
+import {WorkerService} from "./WorkerService.mjs";
 import {FloorService} from "./FloorService.mjs";
 import {CabinetService} from "./CabinetService.mjs";
 
 const DIR_DATA = 'data/';
-const DIR_USERS = DIR_DATA + 'users/';
+const DIR_WORKERS = DIR_DATA + 'workers/';
 const DIR_FLOORS = DIR_DATA + 'floors/';
 const DIR_CABINETS = DIR_DATA + 'cabinets/';
 
-export const FILENAME_USERS_LEVEL_1 = DIR_USERS + '1_level;cab;surname;name.txt';
-export const FILENAME_USERS_LEVEL_2 = DIR_USERS + '2_level;cab;surname;name.txt';
+export const FILENAME_WORKERS_LEVEL_1 = DIR_WORKERS + '1_level;cab;surname;name.txt';
+export const FILENAME_WORKERS_LEVEL_2 = DIR_WORKERS + '2_level;cab;surname;name.txt';
 export const FILENAME_FLOOR_1 = DIR_FLOORS + '1_floor;id;name;x;y';
 export const FILENAME_FLOOR_3 = DIR_FLOORS + '3_floor;id;name;x;y';
 export const FILENAME_CABINET_106 = DIR_CABINETS + '106_cabinet';
@@ -25,8 +25,8 @@ export class DataParser {
      * @param {string} fileName
      * @param {int} level
      */
-    async parseUsersFile(fileName, level) {
-        const service = new UserService();
+    async parseWorkersFile(fileName, level) {
+        const service = new WorkerService();
 
         const headers = ['cabinet', 'surname', 'name'];
         const fullNameToId = {};
@@ -35,14 +35,14 @@ export class DataParser {
         await this.processCsv(fileName, headers, /** {cabinet: string, surname: string, name: string} */row => {
             const floor = parseInt(row.cabinet.charAt(0), 10);
             const cabinetId = parseInt(row.cabinet, 10);
-            const user = service.createUser(row.name, row.surname, floor, cabinetId, level, RANDOM_PHOTO_URL);
+            const worker = service.createWorker(row.name, row.surname, floor, cabinetId, level, RANDOM_PHOTO_URL);
 
-            fullNameToId[user.fullName] = user.id;
+            fullNameToId[worker.fullName] = worker.id;
 
-            if (cabinetToWorkers[user.cabinet] && cabinetToWorkers[user.cabinet][user.level] !== undefined) {
-                cabinetToWorkers[user.cabinet][user.level].push(user.fullName);
+            if (cabinetToWorkers[worker.cabinet] && cabinetToWorkers[worker.cabinet][worker.level] !== undefined) {
+                cabinetToWorkers[worker.cabinet][worker.level].push(worker.fullName);
             } else {
-                cabinetToWorkers[user.cabinet] = {[user.level]: []};
+                cabinetToWorkers[worker.cabinet] = {[worker.level]: []};
             }
         });
 

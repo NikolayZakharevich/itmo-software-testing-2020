@@ -1,4 +1,4 @@
-export class User {
+export class Worker {
 
     /**
      * @param {int} id
