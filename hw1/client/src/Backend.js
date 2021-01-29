@@ -2,11 +2,12 @@ import queryString from 'query-string'
 import config from './config'
 
 export const requestParams = httpMethod => ({
-    method: httpMethod.toUpperCase()
+    method: httpMethod.toUpperCase(),
+    headers: {}
 });
 
 export default class Backend {
-    static async request(method, params, httpMethod = 'GET') {
+    static request = async (method, params, httpMethod = 'GET') => {
         let url = config.api_basepath + method
         const reqParams = requestParams(httpMethod)
 
@@ -26,5 +27,5 @@ export default class Backend {
             console.log(e)
             return Promise.reject(e);
         }
-    }
+    };
 }

@@ -23,7 +23,7 @@ const BLOCK_FILTERS = Symbol('BLOCK_FILTERS');
 const BLOCK_ROAD = Symbol('BLOCK_ROAD');
 const BLOCK_MAGNIFIER = Symbol('BLOCK_MAGNIFIER');
 
-const MainPage = ({showLayout}) => {
+const MainPage = ({login, showLayout}) => {
 
     const [filtersBlockShown, setFiltersBlockShown] = useState(false);
     const [roadBlockShown, setRoadBlockShown] = useState(false);
@@ -203,6 +203,7 @@ const MainPage = ({showLayout}) => {
                             ▼
                         </div>
                     </div>
+                    {login && <span>Logged as {login}</span>}
                     <div className="floorTitle">
                         <span>
                             {"Floor" + activeFloor.id + ((activeLayout && activeCabinet.id !== 0)

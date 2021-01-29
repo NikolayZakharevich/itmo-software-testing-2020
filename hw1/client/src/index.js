@@ -13,7 +13,7 @@ const routes = [
     {name: 'register', path: '/register'}
 ]
 
-const router = createRouter(routes)
+export const router = createRouter(routes)
 
 router.usePlugin(browserPlugin())
 
