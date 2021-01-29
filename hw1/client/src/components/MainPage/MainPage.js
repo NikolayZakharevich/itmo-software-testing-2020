@@ -131,8 +131,8 @@ const MainPage = ({showLayout}) => {
     const onToUp = () => !isLastFloor && loadFloor(activeFloor.id + 2, currentFilter)
     const onToDown = () => !isFirstFloor && loadFloor(activeFloor.id - 2, currentFilter);
 
-    const renderLayout = (layout) => {
-        switch (layout) {
+    const renderLayout = () => {
+        switch (activeLayout) {
             case LAYOUT_FLOOR:
                 return <FloorLayout
                     id={activeFloor.id}

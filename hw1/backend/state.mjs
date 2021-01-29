@@ -10,6 +10,8 @@ import {CabinetService} from "./service/CabinetService.mjs";
 
 export let _FLOORS = [];
 export let _CABINETS = [];
+export let _USERS = [];
+
 
 function extractWorkerRooms(cabinetToWorkers, floor) {
     const service = new CabinetService();
@@ -103,4 +105,12 @@ export function getFloor(id, cabinetFilters) {
                 return !!cabinet && cabinetFilters.includes(cabinet.type)
             })
     };
+}
+
+export function saveUser(user) {
+    _USERS.push(user);
+}
+
+export function findUser(login) {
+    return _USERS.find(x => x.login === login)
 }
