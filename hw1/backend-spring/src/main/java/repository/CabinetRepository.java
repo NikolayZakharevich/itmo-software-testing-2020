@@ -1,2 +1,2 @@
-package repository;
-
+package repository;public interface CabiniterRepository {
+}
