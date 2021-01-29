@@ -107,6 +107,10 @@ export function getFloor(id, cabinetFilters) {
     };
 }
 
+export function dropUsers() {
+    _USERS = [];
+}
+
 export function saveUser(user) {
     _USERS.push(user);
 }

@@ -1,7 +1,7 @@
 import express from 'express';
 import bodyParser from 'body-parser';
 
-import {getFloor, initFromFiles} from "./state.mjs";
+import {dropUsers, getFloor, initFromFiles} from "./state.mjs";
 import {UserService} from "./service/UserService.js";
 
 
@@ -38,6 +38,7 @@ export class Application {
     }
 
     initHandler(req, res) {
+        dropUsers()
         initFromFiles().then(_ => res.json('ok'));
     }
 

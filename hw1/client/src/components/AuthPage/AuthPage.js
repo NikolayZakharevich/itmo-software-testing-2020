@@ -15,7 +15,7 @@ export const AuthPage = ({isLogin, onSuccess, onFailure}) => {
     }
 
     return (
-        <form onSubmit={onSubmit}>
+        <form id="authForm" onSubmit={onSubmit}>
             <h1>{isLogin ? "Login" : "Register"} Below!</h1>
             <input
                 type="login"
