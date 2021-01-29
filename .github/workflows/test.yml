@@ -17,5 +17,5 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: ${{ matrix.node-version }}
-      - run: yarn install
-      - run: yarn test
+      - run: yarn --cwd hw1/client install
+      - run: yarn --cwd hw1/client test
