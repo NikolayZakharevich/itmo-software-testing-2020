@@ -1,4 +1,5 @@
 import express from 'express';
+import cors from 'cors';
 import bodyParser from 'body-parser';
 
 import {dropUsers, getFloor, initFromFiles} from "./state.mjs";
@@ -14,6 +15,8 @@ export class Application {
     attachRoutes() {
         let app = this.expressApp;
         let jsonParser = bodyParser.json();
+
+        app.use(cors());
 
         app.post('/register', jsonParser, this.registerHandler.bind(this));
         app.get('/login', jsonParser, this.loginHandler.bind(this));
