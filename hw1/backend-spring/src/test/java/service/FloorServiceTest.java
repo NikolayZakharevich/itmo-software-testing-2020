@@ -8,7 +8,6 @@ import org.junit.Test;
 import org.mockito.Mock;
 import repository.CabinetRepository;
 
-import java.util.Arrays;
 import java.util.Collections;
 
 import static org.mockito.Mockito.mock;
@@ -20,7 +19,7 @@ public class FloorServiceTest {
     private CabinetRepository cabinetRepository;
 
     @Before
-    public void setUp() throws Exception {
+    public void setUp() {
         cabinetRepository = mock(CabinetRepository.class);
     }
 
@@ -33,6 +32,7 @@ public class FloorServiceTest {
         FloorService service = new FloorService(cabinetRepository);
         FloorEntity floorEntity = service.getFloor(1L, Collections.singletonList("coffepoint"));
 
+        Assert.assertNotNull(floorEntity);
         Assert.assertEquals(floorEntity.getCabinets(), Collections.emptyList());
     }
 

@@ -20,6 +20,7 @@ public class FloorService {
         List<CabinetsEntity> cabinets = cabinetRepository.findAll();
         return new FloorEntity(id,
                 cabinets.stream().filter(cabinet ->
+                        cabinet != null &&
                         cabinet.getFloor() == id.intValue() &&
                                 filters.contains(cabinet.getType())
                 ).collect(Collectors.toList()));
