@@ -1,4 +1,4 @@
-name: Client
+name: Backend
 
 on: [push]
 
@@ -17,15 +17,14 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: ${{ matrix.node-version }}
-      - run: yarn --cwd hw1/client install
-      - run: yarn --cwd hw1/client test
+      - run: npm --prefix hw1/backend install
       - name: Deploy to Server
         uses: easingthemes/ssh-deploy@v2.1.5
         env:
           SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
           ARGS: "-rltgoDzvO"
-          SOURCE: "hw1/client/"
+          SOURCE: "hw1/backend/"
           REMOTE_HOST: ${{ secrets.REMOTE_HOST }}
           REMOTE_USER: ${{ secrets.REMOTE_USER }}
-          TARGET: ${{ secrets.REMOTE_TARGET_CLIENT }}
+          TARGET: ${{ secrets.REMOTE_TARGET_BACKEND }}
 
