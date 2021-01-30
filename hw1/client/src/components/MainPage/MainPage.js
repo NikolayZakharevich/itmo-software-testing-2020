@@ -209,7 +209,7 @@ const MainPage = ({login, showLayout}) => {
                     {login && <span>Logged as {login}</span>}
                     <div className="floorTitle">
                         <span>
-                            {"Floor" + activeFloor.id + ((activeLayout && activeCabinet.id !== 0)
+                            {"Hello" + activeFloor.id + ((activeLayout && activeCabinet.id !== 0)
                                 ? "/Room " + activeCabinet.id
                                 : "")}
                         </span>
