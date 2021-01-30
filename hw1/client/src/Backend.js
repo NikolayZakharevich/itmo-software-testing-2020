@@ -3,7 +3,12 @@ import config from './config'
 
 export const requestParams = httpMethod => ({
     method: httpMethod.toUpperCase(),
-    headers: {}
+    mode: 'cors',
+    cache: 'no-cache',
+    credentials: 'same-origin',
+    headers: {},
+    redirect: 'follow',
+    referrer: 'no-referrer'
 });
 
 export default class Backend {
